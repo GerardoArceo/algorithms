@@ -3,7 +3,7 @@ const checkPermutation = (str1: String, str2: String) => {
     let sortedString2 = Array.from(str2).sort().join('');
     const isPermutation = sortedString1 === sortedString2
     return isPermutation;
-}
+} 
 console.log(checkPermutation('Hola mundo', 'mundo Hola'))
 console.log(checkPermutation('Hola mundi', 'Mundo 123'))
 

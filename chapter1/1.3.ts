@@ -1,7 +1,7 @@
 const URLify = (str: String) => {
     return str.replaceAll(' ', '%20');
 }
-console.log(URLify('Hola mundo '))
+console.log(URLify('Hola mundo ')) 
 
 const URLify2 = (str: String) => {
     let newStr = '';

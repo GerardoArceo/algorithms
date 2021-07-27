@@ -43,4 +43,3 @@ const isUniqueWithoutDataStructures = (str: String) => {
 }
 console.log(isUniqueWithoutDataStructures('Hola mundo'))
 console.log(isUniqueWithoutDataStructures('Hola mundi'))
-
