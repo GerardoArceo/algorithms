@@ -1,24 +1,24 @@
-//1.4
 const palindromePermutation = (str: String) => {
-    str = str.toLowerCase()
-    let isPalindromePermutation = true;
-    let obj = {};
-    for (let i = 0; i < str.length; i++) {
-        if (str[i] !== ' ') {
-            obj[str[i]] = obj[str[i]] ? obj[str[i]] + 1 : 1;
-        }
+    str = str.toLowerCase().replaceAll(' ', '')
+    let hash = {};
+    let countOdd = 0
+    for (const char of str) {
+        hash[char] = !hash[char]
+        countOdd += hash[char] ? 1 : -1
     }
-    let numOddsRepeats = 0;
-    for (let numCharRepeats of Object.values(obj)) {
-        if (Number(numCharRepeats) % 2 !== 0) {
-            numOddsRepeats++;
-            if (numOddsRepeats > 1) {
-                isPalindromePermutation = false;
-                break;
-            } 
-        }
-    }
-    return isPalindromePermutation;
+    return countOdd <= 1;
 }
 console.log(palindromePermutation('Tact Coa'))
 console.log(palindromePermutation('Tact Coah'))
+
+const palindromePermutationWithBitVector = (str: String) => {
+    str = str.toLowerCase().replaceAll(' ', '')
+    let bitVector = 0
+    for (const char of str) 
+        bitVector ^= 1 << (char.charCodeAt(0) - 'a'.charCodeAt(0))
+    return bitVector == 0 || (bitVector & (bitVector - 1)) == 0
+}
+console.log(palindromePermutationWithBitVector('Tact Coa'))
+console.log(palindromePermutationWithBitVector('Tact Coah'))
+
+
