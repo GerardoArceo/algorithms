@@ -19,3 +19,4 @@ const stringCompression = (str: string) => {
     return newString.length > str.length ? str : newString;
 }
 console.log(stringCompression("aaaabbbc"))
+
