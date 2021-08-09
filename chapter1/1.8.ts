@@ -1,4 +1,4 @@
-const zeroMatrix = (matrix: Number[][]) => {
+const zeroMatrix = (matrix: number[][]) => {
     var zeroRow = Array<number>(matrix[0].length).fill(0);
     const zeroCells = []
     for (let i = 0; i < matrix.length; i++)
@@ -20,7 +20,7 @@ const matrix2 = [
 ]
 // console.log(zeroMatrix(matrix2))
 
-const zeroMatrix2 = (matrix: Number[][]) => {
+const zeroMatrix2 = (matrix: number[][]) => {
     var zeroRow = Array<number>(matrix[0].length).fill(0);
     const zeroRows = {}
     const zeroCols = {}
@@ -37,7 +37,16 @@ const zeroMatrix2 = (matrix: Number[][]) => {
 }
 // console.log(zeroMatrix2(matrix2))
 
-const zeroMatrix3 = (matrix: Number[][]) => {
+const zeroMatrix3 = (matrix: number[][]) => {
+    const setZeroRow = (row: number) => {
+        for (let i = 0; i < matrix[0].length; i++)
+            matrix[row][i] = 0;
+    }
+    const setZeroColumn = (col: number) => {
+        for (let i = 0; i < matrix.length; i++)
+            matrix[i][col] = 0
+    }
+
     let firstRowIsZero = false
     for (let i = 0; i < matrix.length; i++)
         for (let j = 0; j < matrix[i].length; j++) 
@@ -46,18 +55,12 @@ const zeroMatrix3 = (matrix: Number[][]) => {
                 if (i === 0) firstRowIsZero = true
             }
     
-    for (let row = 1; row < matrix.length; row++) //set rows to 0
-        if (matrix[row][0] === 0)
-            for (let j = 0; j < matrix[0].length; j++)
-                matrix[row][j] = 0;
-    for (let col = 0; col < matrix[0].length; col++) //set cols to 0
-        if (matrix[0][col] === 0)
-            for (let j = 0; j < matrix.length; j++)
-                matrix[j][col] = 0;
+    for (let row = 1; row < matrix.length; row++)
+        if (matrix[row][0] === 0) setZeroRow(row)
+    for (let col = 0; col < matrix[0].length; col++)
+        if (matrix[0][col] === 0) setZeroColumn(col)
 
-    if (firstRowIsZero)
-        for (let j = 0; j < matrix[0].length; j++)
-            matrix[0][j] = 0;
+    if (firstRowIsZero) setZeroRow(0)
 
     return matrix
 }
