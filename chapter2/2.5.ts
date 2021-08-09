@@ -7,30 +7,25 @@ const sumLists = (node1: SinglyListNode<number>, node2: SinglyListNode<number>,
         return newList
     }
     
-    let digitSum = carry
+    let sum = carry
 
     if (node1) {
-        digitSum += node1.data
+        sum += node1.data
         node1 = node1.next
     }
 
     if (node2) {
-        digitSum += node2.data
+        sum += node2.data
         node2 = node2.next
     } 
 
-    carry = 0
-    if (digitSum >= 10) {
-        carry = Math.floor(digitSum / 10)
-        digitSum = digitSum % 10
-    }
     if (!newList) newList = new SinglyList<number>()
-    newList.insertAtEnd(digitSum)
+    newList.insertAtEnd(splitSum(sum).number)
 
-    return sumLists(node1, node2, carry, newList)
+    return sumLists(node1, node2, splitSum(sum).carry, newList)
 }
 
-const sumLists2 = (n1: SinglyList<number>, n2: SinglyList<number>): SinglyList<number> => { //straight
+const sumLists2 = (head1: SinglyListNode<number>, head2: SinglyListNode<number>): SinglyList<number> => { //straight
     const listToNumber = (node: SinglyListNode<number>): {result: number, index: number} => {
         if (!node.next) {
             return {result: node.data, index: 0}
@@ -40,8 +35,8 @@ const sumLists2 = (n1: SinglyList<number>, n2: SinglyList<number>): SinglyList<n
         const result = recursiveCall.result + node.data * (10 ** index)
         return {result, index}
     }
-    const num1 = listToNumber(n1.getHead()).result
-    const num2 = listToNumber(n2.getHead()).result
+    const num1 = listToNumber(head1).result
+    const num2 = listToNumber(head2).result
     const sum = num1 + num2
 
     const newList = new SinglyList<number>()
@@ -74,39 +69,28 @@ const fillSizeDifferenceWithZeros = (head1: SinglyListNode<number>, head2: Singl
     return {head1, head2}
 }
 
-const sumLists3 = (node1: SinglyListNode<number>, node2: SinglyListNode<number>, isFirstCall = true)
-        : {newList: SinglyList<number>, carry: number} => { //straight
-        
-    if (isFirstCall) {
-        const newHeads = fillSizeDifferenceWithZeros(node1, node2)
-        node1 = newHeads.head1
-        node2 = newHeads.head2
-    }
-    
-    let digitSum = 0
+const splitSum = (sum: number): {number: number, carry: number} => {
+    return sum < 10 ? {number: sum, carry: 0} : {number: sum % 10, carry: Math.floor(sum / 10)}
+}
 
-    if (node1) digitSum += node1.data
-    if (node2) digitSum += node2.data
-
-    let carry = 0
+const sumLists3 = (head1: SinglyListNode<number>, head2: SinglyListNode<number>): SinglyList<number> => { //straight    
     let newList = new SinglyList<number>()
-    if (node1.next && node2.next) {
-        const recursiveResponse = sumLists3(node1.next, node2.next, false)
-        carry = recursiveResponse.carry
-        newList = recursiveResponse.newList
-    }
-    digitSum += carry
-
-    carry = 0
-    if (digitSum >= 10) {
-        carry = Math.floor(digitSum / 10)
-        digitSum = digitSum % 10
-    }
-
-    newList.insertInBegin(digitSum)
     
-    if (isFirstCall && carry > 0) newList.insertInBegin(carry)
-    return {newList, carry}
+    const newHeads = fillSizeDifferenceWithZeros(head1, head2)
+    head1 = newHeads.head1, head2 = newHeads.head2
+
+    const recursive = (node1: SinglyListNode<number>, node2: SinglyListNode<number>): {carry: number} => { //straight
+        let sum = node1.data + node2.data
+
+        sum += node1.next && node2.next ? recursive(node1.next, node2.next).carry : 0
+        
+        newList.insertInBegin(splitSum(sum).number)
+        return {carry: splitSum(sum).carry}
+    }
+
+    const resultCarry = recursive(head1, head2).carry
+    if (resultCarry > 0) newList.insertInBegin(resultCarry)
+    return newList
 }
 
 const n1 = new SinglyList<number>();
@@ -126,8 +110,8 @@ n2.insertAtEnd(9);
 const sum1 = sumLists(n1.getHead(), n2.getHead())
 console.log(sum1.transverse())
 
-const sum2 = sumLists2(n1, n2)
+const sum2 = sumLists2(n1.getHead(), n2.getHead())
 console.log(sum2.transverse())
 
-const sum3 = sumLists3(n1.getHead(), n2.getHead()).newList
+const sum3 = sumLists3(n1.getHead(), n2.getHead())
 console.log(sum3.transverse())
