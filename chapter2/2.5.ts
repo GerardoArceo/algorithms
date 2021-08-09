@@ -74,10 +74,9 @@ const splitSum = (sum: number): {number: number, carry: number} => {
 }
 
 const sumLists3 = (head1: SinglyListNode<number>, head2: SinglyListNode<number>): SinglyList<number> => { //straight    
-    let newList = new SinglyList<number>()
+    ({ head1, head2 } = fillSizeDifferenceWithZeros(head1, head2));
     
-    const newHeads = fillSizeDifferenceWithZeros(head1, head2)
-    head1 = newHeads.head1, head2 = newHeads.head2
+    let newList = new SinglyList<number>()
 
     const recursive = (node1: SinglyListNode<number>, node2: SinglyListNode<number>): {carry: number} => { //straight
         let sum = node1.data + node2.data
