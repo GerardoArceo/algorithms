@@ -44,15 +44,6 @@ class SinglyList6<T> extends SinglyList<T> {
             return {reverseIndex: 0, result: true}
         }
     }
-    
-    getLength = (node: SinglyListNode<T> = this.head) => {
-        let length = 0
-        while (node) {
-            length++
-            node = node.next
-        }
-        return length
-    }
 
     isPalindromeRecursive2 = (length: number, p1 = this.head): {result: boolean, p2: SinglyListNode<T>} => {
         if (length > 1) {

@@ -140,4 +140,18 @@ export class SinglyList<T> {
     getHead(): SinglyListNode<T> {
         return this.head
     }
+
+    setTail(tail: SinglyListNode<T>) {
+        this.tail.next = tail
+        this.tail = tail
+    }
+
+    getLength = (node: SinglyListNode<T> = this.head) => {
+        let length = 0
+        while (node) {
+            length++
+            node = node.next
+        }
+        return length
+    }
 }
