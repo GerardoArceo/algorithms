@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "tsnd --respawn chapter2/1.2.ts"
+    "start": "tsnd --respawn test/test.ts"
   },
   "dependencies": {
     "ts-node-dev": "^1.1.8"

@@ -92,6 +92,35 @@ const sumLists3 = (head1: SinglyListNode<number>, head2: SinglyListNode<number>)
     return newList
 }
 
+const sumLists4 = (l1: SinglyListNode<number> | null, l2: SinglyListNode<number> | null): SinglyList<number> | null => {
+    let carry = 0
+    let head: SinglyListNode<number>
+    let node: SinglyListNode<number>
+    
+    while (l1 || l2 || carry > 0) {
+        let sum = carry
+        if (l1) sum += l1.data
+        if (l2) sum += l2.data
+        
+        const digitToSave = sum % 10
+        carry = Math.floor(sum / 10)
+        
+        if (!head) {
+            head = new SinglyListNode(digitToSave)
+            node = head
+        } else {
+            const newNode = new SinglyListNode(digitToSave)
+            node.next = newNode
+            node = newNode
+        }
+        
+        if (l1) l1 = l1.next
+        if (l2) l2 = l2.next
+    }
+    
+    return new SinglyList(head)
+};
+
 const n1 = new SinglyList<number>();
 n1.insertAtEnd(9); //9137
 n1.insertAtEnd(1);
@@ -114,3 +143,6 @@ console.log(sum2.transverse())
 
 const sum3 = sumLists3(n1.getHead(), n2.getHead())
 console.log(sum3.transverse())
+
+const sum4 = sumLists4(n1.getHead(), n2.getHead())
+console.log(sum4.transverse())
